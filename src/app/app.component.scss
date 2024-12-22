@@ -1,0 +1,37 @@
+:host {
+  .card {
+    padding: 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: white;
+  }
+
+  .form-field {
+    margin-bottom: 16px;
+  }
+
+  button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    background: #1976d2;
+    color: white;
+    cursor: pointer;
+  }
+
+  .table-container {
+    margin-top: 16px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+}
