@@ -1,4 +1,8 @@
 :host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   .card {
     padding: 16px;
     border-radius: 4px;
@@ -33,5 +37,30 @@
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+  }
+
+  .copy-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin-left: 8px;
+    padding: 4px;
+    display: inline-flex;
+    align-items: center;
+    color: #1976d2;
+
+    &:hover {
+      background-color: rgba(25, 118, 210, 0.04);
+      border-radius: 4px;
+    }
+
+    .material-symbols-outlined {
+      font-size: 20px;
+    }
+  }
+
+  .copy-button:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-radius: 4px;
   }
 }

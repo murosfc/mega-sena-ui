@@ -1,39 +1,43 @@
 <div class="container">
   <div class="card">
-    <form (ngSubmit)="fetchGames()">
+    <form>
       <div class="form-field">
-        <label for="numGames"
-          >Digite a quantidade de jogos que deseja gerar de (1 a 20)</label
-        >
+        <label for="numGames">Digite a quantidade de jogos que deseja gerar de (1 a 20)</label>
         <input
           id="numGames"
           type="number"
           name="numGames"
+          [(ngModel)]="numGames"
           required
           min="1"
           max="20"
         />
       </div>
-      <button type="submit">Enviar</button>
+      <button type="submit" (click)="$event.preventDefault(); getGames()">Enviar</button>
     </form>
 
     @if (games().length > 0) {
-    <div class="table-container">
-      <table cdk-table [dataSource]="games()">
-        <ng-container cdkColumnDef="id">
-          <th cdk-header-cell *cdkHeaderCellDef>ID</th>
-          <td cdk-cell *cdkCellDef="let game">{{ game.id }}</td>
-        </ng-container>
-
-        <ng-container cdkColumnDef="name">
-          <th cdk-header-cell *cdkHeaderCellDef>Nome</th>
-          <td cdk-cell *cdkCellDef="let game">{{ game.name }}</td>
-        </ng-container>
-
-        <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
-        <tr cdk-row *cdkRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-    </div>
+      <div class="table-container">
+        <table cdk-table [dataSource]="games()">
+          <ng-container cdkColumnDef="id">
+            <th cdk-header-cell *cdkHeaderCellDef>ID</th>
+            <td cdk-cell *cdkCellDef="let game">{{ game.id }}</td>
+          </ng-container>
+  
+          <ng-container cdkColumnDef="name">
+            <th cdk-header-cell *cdkHeaderCellDef>Números</th>
+            <td cdk-cell *cdkCellDef="let game">
+              {{ formatGameNumbers(game.game) }}
+              <button class="copy-button" (click)="copyToClipboard(formatGameNumbers(game.game))">
+                <span class="material-symbols-outlined">content_copy</span>
+              </button>
+            </td>
+          </ng-container>
+  
+          <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+          <tr cdk-row *cdkRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
     }
   </div>
 </div>
