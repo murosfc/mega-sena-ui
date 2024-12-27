@@ -1,43 +1,88 @@
 <div class="container">
+  <header>
+    <h1>Aumente suas chances na Mega-Sena!</h1>
+  </header>
+  <main>
+    <p>
+      Esse aplicativo utiliza a <strong>estatística</strong> para te ajudar a
+      conquistar a Mega-Sena. Com base em dados históricos, geramos jogos
+      personalizados com <strong>maior probabilidade estatística**</strong> de
+      serem sorteados.
+    </p>
+
+    <h2>Como funciona?</h2>
+    <ol>
+      <li>Escolha a quantidade de jogos:</li>
+      <li>Gere seus jogos:</li>
+      <li>Aposte e boa sorte!</li>
+    </ol>
+
+    <p>
+      <strong>Importante:**</strong> A estatística não garante a vitória. Jogue
+      com responsabilidade.
+    </p>
+  </main>
   <div class="card">
     <form>
       <div class="form-field">
-        <label for="numGames">Digite a quantidade de jogos que deseja gerar de (1 a 20)</label>
+        <label for="numGames">Quantidade de jogos: </label>
         <input
           id="numGames"
           type="number"
           name="numGames"
-          [(ngModel)]="numGames"
+          placeholder="Min 1, Max 20"
           required
           min="1"
           max="20"
+          [(ngModel)]="numGames"
+          (ngModelChange)="onInputChange($event)"
         />
       </div>
-      <button type="submit" (click)="$event.preventDefault(); getGames()">Enviar</button>
+      <button
+        type="submit"
+        [disabled]="disabled()"
+        (click)="$event.preventDefault(); getGames()"
+      >
+        Enviar
+      </button>
+      @if (loading()) {
+      <div class="loading-container">
+        <span class="material-symbols-outlined rotating-icon"> cycle </span>
+      </div>
+      }
     </form>
 
     @if (games().length > 0) {
-      <div class="table-container">
-        <table cdk-table [dataSource]="games()">
-          <ng-container cdkColumnDef="id">
-            <th cdk-header-cell *cdkHeaderCellDef>ID</th>
-            <td cdk-cell *cdkCellDef="let game">{{ game.id }}</td>
-          </ng-container>
-  
-          <ng-container cdkColumnDef="name">
-            <th cdk-header-cell *cdkHeaderCellDef>Números</th>
-            <td cdk-cell *cdkCellDef="let game">
-              {{ formatGameNumbers(game.game) }}
-              <button class="copy-button" (click)="copyToClipboard(formatGameNumbers(game.game))">
-                <span class="material-symbols-outlined">content_copy</span>
-              </button>
-            </td>
-          </ng-container>
-  
-          <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
-          <tr cdk-row *cdkRowDef="let row; columns: displayedColumns"></tr>
-        </table>
-      </div>
+    <div class="table-container">
+      <table cdk-table [dataSource]="games()">
+        <ng-container cdkColumnDef="id">
+          <th cdk-header-cell *cdkHeaderCellDef>ID</th>
+          <td cdk-cell *cdkCellDef="let game">{{ game.id }}</td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="name">
+          <th cdk-header-cell *cdkHeaderCellDef>Números</th>
+          <td cdk-cell *cdkCellDef="let game">
+            {{ formatGameNumbers(game.game) }}
+            <button
+              class="copy-button"
+              (click)="copyToClipboard(formatGameNumbers(game.game))"
+            >
+              <span class="material-symbols-outlined">content_copy</span>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+        <tr cdk-row *cdkRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
     }
   </div>
+  <footer>
+    <p>
+      &copy; 2024 <a href="https://murosfc.com">murosfc</a>. Todos os direitos
+      reservados.
+    </p>
+  </footer>
 </div>
