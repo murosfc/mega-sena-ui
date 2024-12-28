@@ -11,23 +11,16 @@ import { ApiResponse } from '../../interfaces/api-response.interface';
 export class GameService {
   private readonly http = inject(HttpClient);
 
-  async getUserIP(): Promise<string> {
-    try {
-      const response = await fetch('https://api.ipify.org?format=json');
-      const data = await response.json();
-      return data.ip;
-    } catch (error) {
-      return 'unknown';
-    }
-  }
-
-  async getUserLocation(): Promise<string> {
+  async getUserData(): Promise<{ ip: string; localizacao: string }> {
     try {
       const response = await fetch('https://ipapi.co/json/');
       const data = await response.json();
-      return `${data.city}, ${data.region}, ${data.country}`;
+      return {
+        ip: data.ip,
+        localizacao: `${data.city}, ${data.region_code}, ${data.country}`,
+      };
     } catch (error) {
-      return 'unknown';
+      return { ip: 'unknown', localizacao: 'unknown' };
     }
   }
 
@@ -36,11 +29,11 @@ export class GameService {
       throw new Error('O número de jogos deve estar entre 1 e 20');
     }
 
-    return from(Promise.all([this.getUserIP(), this.getUserLocation()])).pipe(
-      switchMap(([ip, location]) => {
+    return from(Promise.all([this.getUserData()])).pipe(
+      switchMap(([userData]) => {
         const headers = new HttpHeaders()
-          .set('ip', ip)
-          .set('localizacao', location)
+          .set('ip', userData.ip)
+          .set('localizacao', userData.localizacao)
           .set('userAgent', navigator.userAgent);
 
         return this.http
