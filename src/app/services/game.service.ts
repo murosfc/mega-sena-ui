@@ -25,7 +25,6 @@ export class GameService {
     try {
       const response = await fetch('https://ipapi.co/json/');
       const data = await response.json();
-      console.log(data);
       return `${data.city}, ${data.region}, ${data.country}`;
     } catch (error) {
       return 'unknown';
