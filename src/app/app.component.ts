@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { CdkTableModule } from '@angular/cdk/table';
 import { GameService } from './services/game.service';
@@ -14,18 +14,19 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent{
   private readonly clipboard = inject(Clipboard);
   private readonly gameService = inject(GameService);
   private readonly snackBar = inject(MatSnackBar);
-  readonly games = signal<Game[]>([]);
-
-  readonly title = 'mega-sena-ui';
-  numGames: number | null = null;
+  
   readonly displayedColumns: string[] = ['id', 'name'];
   readonly loading = signal<boolean>(false);
-
+  readonly title = 'mega-sena-ui';
+  
   readonly disabled = signal<boolean>(true);
+  readonly games = signal<Game[]>([]);
+  
+  numGames: number | null = null;
 
   copyToClipboard(text: string): void {
     const successful = this.clipboard.copy(text);
@@ -39,6 +40,7 @@ export class AppComponent {
       });
     }
   }
+
   formatGameNumbers(numbers: number[]): string {
     return numbers.map((num) => num.toString().padStart(2, '0')).join('-');
   }

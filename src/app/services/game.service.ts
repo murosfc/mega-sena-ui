@@ -25,6 +25,7 @@ export class GameService {
     try {
       const response = await fetch('https://ipapi.co/json/');
       const data = await response.json();
+      console.log(data);
       return `${data.city}, ${data.region}, ${data.country}`;
     } catch (error) {
       return 'unknown';
@@ -40,7 +41,7 @@ export class GameService {
       switchMap(([ip, location]) => {
         const headers = new HttpHeaders()
           .set('ip', ip)
-          .set('location', location)
+          .set('localizacao', location)
           .set('userAgent', navigator.userAgent);
 
         return this.http
@@ -49,7 +50,6 @@ export class GameService {
             { headers }
           )
           .pipe(
-            tap((response) => console.log('Resposta da API:', response)),
             map((response: ApiResponse) =>
               response.results.map((numbers) => ({ game: numbers } as Game))
             )
