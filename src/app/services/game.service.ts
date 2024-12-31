@@ -4,6 +4,7 @@ import { Observable, from } from 'rxjs';
 import { map, tap, switchMap } from 'rxjs/operators';
 import { Game } from '../../interfaces/game.interface';
 import { ApiResponse } from '../../interfaces/api-response.interface';
+import { GameResults } from '../../interfaces/game-results.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,12 @@ export class GameService {
     } catch (error) {
       return { ip: 'unknown', localizacao: 'unknown' };
     }
+  }
+
+  getAllGames(): Observable<GameResults[]> {
+    return this.http.get<GameResults[]>(
+      'https://mega-sena-api.vercel.app/get-all-games'
+    );
   }
 
   getGames(numGames: number): Observable<Game[]> {
